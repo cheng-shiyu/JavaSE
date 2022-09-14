@@ -1,5 +1,6 @@
 package Demo_2022_08_18;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,12 +25,30 @@ public class Demo01 {
           }
       }
 
+    private static List<List<Integer>> res;
 
       /**
        * description: 一定要用递归，深度优先算法，广度优先算法，
        * @author: 程世玉.
        */
     public static List<List<Integer>> pathSum(TreeNode root, int target) {
+        res = new ArrayList<>();
+        backtrack(root, target, new ArrayList<>());
+        return res;
+    }
 
+    private static void backtrack(TreeNode node, int target, List<Integer> collector) {
+        if (node == null) {
+            return;
+        }
+        collector.add(node.val);
+        target -= node.val;
+        if (target == 0 && node.left == null && node.right == null) {
+            res.add(new ArrayList<>(collector));
+        } else {
+            backtrack(node.left, target, collector);
+            backtrack(node.right, target, collector);
+        }
+        collector.remove(collector.size() - 1);
     }
 }
